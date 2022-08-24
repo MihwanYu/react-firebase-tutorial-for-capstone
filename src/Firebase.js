@@ -6,12 +6,6 @@ import { getFirestore, doc, setDoc, addDoc, getDoc, getDocs, collection, query, 
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDqZ2lqu3qmuHy4RcGvLOrj9ngfCBGNTcY",
-  authDomain: "uservideo-test.firebaseapp.com",
-  projectId: "uservideo-test",
-  storageBucket: "uservideo-test.appspot.com",
-  messagingSenderId: "692364735250",
-  appId: "1:692364735250:web:c56f10636c811f045539cb"
 };
 
 //배열을 DB에 저장하는 메서드

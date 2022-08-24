@@ -11,7 +11,7 @@ const MyYoutube = () => {
   const [player, setPlayer] = useState(null);
 
   //currentIdx: software/system/engineering 버튼 중에 하나 누르면 가장 최근에 누른 버튼 인덱스 값 저장
-  const [currentIdx, setCurrentIdx] = useState(0);
+  const [currentKey, setCurrentKey] = useState('');
   //timestampIdx: 이전 js의 변수now와 동일. 현재 눌려진 버튼에 맵핑된 타임스탬프 리스트 중 보여지고 있는 인덱스 값
   const [timestampIdx, setTimestampIdx] = useState(-1);
   //currentTime: 현재 보여지고 있는 0:00 등의 시간을 정수로 환산
@@ -30,7 +30,8 @@ const MyYoutube = () => {
   useEffect(()=>{
     if(player){
     player.seekTo(currentTime);
-    console.log(keyword_time_dict['software']);
+    console.log('seek to: ',currentTime);
+    console.log(keyword_time_dict[currentKey]);
     }
   }, [currentTime]);
 
@@ -58,20 +59,27 @@ const MyYoutube = () => {
   //onClickKeyword: 예전 clickKey역할, alert 띄우고 currentIdx 값을 해당 key index값으로 바꿈, 타임스탬프 리스트도 리셋
   const onClickKeyword=(keyVal,idx)=>{
     alert(keyword_time_dict[keyVal]);
-    setCurrentIdx(idx);//현재 누른 버튼 인덱스
+    setCurrentKey(keyVal);//현재 누른 버튼 인덱스
     setTimestampIdx(0);//software의 리스트에서 현재 보여지고 있는 인덱스
-    setCurrentTime(keyword_time_dict[keyVal][timestampIdx]);
+    setCurrentTime(keyword_time_dict[keyVal][0]);
+    console.log('current key: ',keyVal);
   }
 
   //movePrev, moveNext: 예전 동일 이름 함수와 역할 같음
   const movePrev=()=>{
-    setTimestampIdx(timestampIdx-1);
-    setCurrentTime(keyword_time_dict['software'][timestampIdx]);
+    if(timestampIdx>0){
+      setTimestampIdx(timestampIdx-1);
+      setCurrentTime(keyword_time_dict[currentKey][timestampIdx-1]);  
+    }
   }
 
   const moveNext=()=>{
-    setTimestampIdx(timestampIdx+1);
-    setCurrentTime(keyword_time_dict['software'][timestampIdx]);
+    console.log(`timestampIdx: ${timestampIdx}, length: ${keyword_time_dict[currentKey].length}`);
+    if(timestampIdx<keyword_time_dict[currentKey].length){
+      console.log(`change datas: stamp id: ${timestampIdx+1}, currentTime: ${currentKey}`)
+      setTimestampIdx(timestampIdx+1);
+      setCurrentTime(keyword_time_dict[currentKey][timestampIdx+1]);  
+    }
   }
 
   return (
@@ -105,10 +113,10 @@ const MyYoutube = () => {
       </div>
 
       <div>
-        <button type="button" id ="prev" onclick={movePrev}>prev</button>
+        <button type="button" id ="prev" onClick={()=>movePrev()}>prev</button>
         {/* 원래 0:00들어가던 자린데 변수값으로 치환 */}
         <span id="timestamp">{currentTime}</span>
-        <button type="button" id ="next" onclick={moveNext}>next</button>
+        <button type="button" id ="next" onClick={moveNext}>next</button>
       </div>
 
       <button type="button" id ="bookmark_save" onclick="bookmarkSaver()">bookmark save</button>

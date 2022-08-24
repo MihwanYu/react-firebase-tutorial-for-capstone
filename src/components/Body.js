@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Router, Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "./Home";
-import NotFound from "./NotFound";
+// import NotFound from "./NotFound";
 import MyYoutube from "./MyYoutube";
 
 const NotLogged = () => {
@@ -17,7 +17,7 @@ const NotLogged = () => {
     <Routes>
       <Route path="/my-youtube/:link" element={<MyYoutube />} />
       <Route path="/" element={<Home />} />
-      <Route path="*" element={<NotFound />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
     
   );
